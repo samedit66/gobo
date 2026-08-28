@@ -31,6 +31,7 @@ feature {NONE} -- Initialization
 		do
 			create pretty_printer.make_null
 			precursor (a_input_filename, a_system_processor)
+			a_system_processor.do_all (agent set_default_encoding_to_utf8)
 		end
 
 feature {NONE} -- Processing
@@ -106,6 +107,16 @@ feature {GEDOC_PRETTY_PRINT_FORMAT} -- Processing
 		end
 
 feature {NONE} -- Implementation
+
+	set_default_encoding_to_utf8 (a_system_processor: ET_SYSTEM_PROCESSOR)
+			-- Use UTF-8 as default input encoding in `a_system_processor'.
+		require
+			a_system_processor_not_void: a_system_processor /= Void
+		do
+			if attached {ET_EIFFEL_PARSER_SKELETON} a_system_processor.eiffel_parser as l_parser then
+				l_parser.set_default_encoding_to_utf8
+			end
+		end
 
 	add_format (a_system_processor: ET_SYSTEM_PROCESSOR; a_formats: DS_ARRAYED_LIST [like Current])
 			-- Add format associated with `a_system_processor' to `a_formats'.

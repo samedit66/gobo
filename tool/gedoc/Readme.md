@@ -7,6 +7,17 @@ It can also be used as an Eiffel pretty-printer.
 The code of `gedoc` is mainly based on the *Gobo Eiffel Tools
 Library* (`$GOBO/library/tools`).
 
+## Unicode-focused fork
+
+This fork exists to make `gedoc` safe to use with Unicode Eiffel sources.
+The pretty-printer treats source files without a byte order mark (BOM) as
+UTF-8, so raw Unicode text such as `"каталог/файл"` is preserved instead of
+being interpreted as ISO-8859-1 and written back as mojibake.
+
+The change is intentionally limited to the `gedoc` pretty-printer. The shared
+Gobo parser keeps its existing default, which minimizes divergence from
+upstream and keeps the Unicode behavior suitable for a future upstream merge.
+
 **Included in this folder:**
 
 * `doc`: this folder contains the documentation for this tool,

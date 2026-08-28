@@ -34,6 +34,11 @@ extern char* GE_system_name;
  */
 extern char* GE_root_class_name;
 
+/*
+ * Environment variables when current process starts.
+ */
+extern EIF_NATIVE_CHAR** eif_environ;
+
 #ifdef EIF_WINDOWS
 
 #include <windows.h>

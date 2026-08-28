@@ -44,6 +44,11 @@ char* GE_system_name = NULL;
  */
 char* GE_root_class_name = NULL;
 
+/*
+ * Environment variables when current process starts.
+ */
+EIF_NATIVE_CHAR** eif_environ = NULL;
+
 #ifdef EIF_WINDOWS
 
 /*
@@ -146,6 +151,7 @@ int main(int dummy_arg1, char** dummy_argv)
 	EIF_NATIVE_CHAR** argv;
 	EIF_NATIVE_CHAR* cmd;
 
+	eif_environ = (EIF_NATIVE_CHAR**)GetEnvironmentStringsW();
 	GE_init_signal();
 	GE_init_gc();
 #ifdef GE_USE_THREADS
@@ -165,6 +171,10 @@ int main(int dummy_arg1, char** dummy_argv)
 		free(argv[0]);
 	}
 	free(argv);
+	if (eif_environ) {
+		FreeEnvironmentStringsW((LPWCH)eif_environ);
+		eif_environ = NULL;
+	}
 	return code;
 }
 
@@ -181,8 +191,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 #else
 
+extern char** environ;
+
 int main(int argc, char** argv)
 {
+	eif_environ = (EIF_NATIVE_CHAR**)environ;
 	GE_init_signal();
 	GE_init_gc();
 #ifdef GE_USE_THREADS

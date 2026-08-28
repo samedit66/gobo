@@ -101,6 +101,14 @@ feature -- Initialization
 			last_feature_clause := Void
 		end
 
+feature -- Setting
+
+	set_default_encoding_to_utf8
+			-- Use UTF-8 when the input file has no byte order mark.
+		do
+			eiffel_buffer.set_default_encoding (eiffel_buffer.utf8_encoding)
+		end
+
 feature -- Status report
 
 	providers_enabled: BOOLEAN

@@ -988,7 +988,7 @@ feature -- Argument parsing
 			a_list: AP_ALTERNATIVE_OPTIONS_LIST
 		do
 			create a_parser.make
-			a_parser.set_application_description ("Gobo Eiffel Compiler, translate Eiffel programs into executables.")
+			a_parser.set_application_description ("Gobo Eiffel Compiler (" + Build_flavor + "), translate Eiffel programs into executables. Local behavior: generated programs initialize EXECUTION_ENVIRONMENT.starting_environment from the process startup environment.")
 			a_parser.set_parameters_description ("eiffel_filename|ecf_filename")
 				-- compile.
 			create compile_flag.make_with_long_form ("compile")
@@ -1368,9 +1368,10 @@ feature -- Error handling
 			l_text: STRING
 			l_count: INTEGER
 		do
+			create l_text.make (100)
+			l_text.append_string (Version_number)
+			l_text.append_string (" (" + Build_flavor + ")")
 			if is_verbose then
-				create l_text.make (100)
-				l_text.append_string (Version_number)
 				l_text.append_string ("%Nexecutable: ")
 				l_text.append_string ({KL_EXECUTION_ENVIRONMENT}.current_executable_pathname)
 				l_text.append_string ("%N$GOBO: ")
@@ -1391,8 +1392,6 @@ feature -- Error handling
 				if l_count > 1 then
 					l_text.append_character ('s')
 				end
-			else
-				l_text := Version_number
 			end
 			create a_message.make (l_text)
 			error_handler.report_info (a_message)
@@ -1418,6 +1417,9 @@ feature -- C generation
 			-- Folder containing then generated C files
 
 feature {NONE} -- Constants
+
+	Build_flavor: STRING = "samedit66 patched build"
+			-- Identifier distinguishing this patched 'gec' build.
 
 	default_ecf_filename: STRING
 			-- Name of default ECF file

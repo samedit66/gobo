@@ -175,7 +175,7 @@ feature -- Argument parsing
 			l_format: GEDOC_FORMAT
 		do
 			create l_parser.make
-			l_parser.set_application_description ("Gobo Eiffel Doc, generate Eiffel documentation.")
+			l_parser.set_application_description ("Gobo Eiffel Doc (" + Build_flavor + "), generate Eiffel documentation.")
 			l_parser.set_parameters_description ("filename")
 				-- target.
 			create target_option.make_with_long_form ("target")
@@ -642,7 +642,7 @@ feature -- Error handling
 		local
 			l_message: UT_VERSION_NUMBER
 		do
-			create l_message.make (Version_number)
+			create l_message.make (Version_number + " (" + Build_flavor + ")")
 			error_handler.report_info (l_message)
 		end
 
@@ -659,6 +659,11 @@ feature -- Error handling
 
 	exit_code: INTEGER
 			-- Exit code
+
+feature {NONE} -- Constants
+
+	Build_flavor: STRING = "samedit66 patched build"
+			-- Identifier distinguishing this patched 'gedoc' build.
 
 invariant
 
